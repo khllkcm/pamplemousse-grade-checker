@@ -3,13 +3,13 @@ from hashlib import sha256
 from json import loads, dumps
 import smtplib
 
-def sendMail(gmail_login, gmail_passowrd, recepient_address):
+def sendMail(gmail_login, gmail_passowrd, recipient_address):
 	s = smtplib.SMTP("smtp.gmail.com", 587)
 	s.starttls()
 	s.login(gmail_login, gmail_passowrd)
 	s.sendmail(
 		gmail_login,
-		recepient_address,
+		recipient_address,
 		"Subject: Grades\n\nI felt a great disturbance in the force.\nGo check https://pamplemousse.ensae.fr/index.php?p=105"
 	)
 	s.quit()
@@ -39,5 +39,5 @@ with Session() as s:
 	if hash != config["old_hash"]:
 		config["old_hash"] = hash
 		open("config.json","w").write(dumps(config))
-		sendMail(config["gmail_login"], config["gmail_password"],config["recepient_address"])
+		sendMail(config["gmail_login"], config["gmail_password"],config["recipient_address"])
 	s.close()
