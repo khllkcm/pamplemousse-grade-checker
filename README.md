@@ -8,7 +8,7 @@ This script, run periodically by cron, will check for any changes on the ENSAE g
 - `pamp_password`: Your Pamplemousse password.
 - `gmail_login`: The login for the gmail account that notfies the user (see the note below).
 - `gmail_password`: The password for the gmail account that notfies the user.
-- `recepient_address`: The email address of the user to be notified.
+- `recipient_address`: The email address of the user to be notified.
 - `old_hash`: Leave blank, the script will fill it automatically.
 
 2 - Edit the `crontab` with the desired periodicity (every hour by default) and the *absolute* path to the `PGC.py` file.
