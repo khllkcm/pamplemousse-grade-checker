@@ -21,22 +21,15 @@ data = {
 	"sph_password":config["pamp_password"]
 }
 
-if not(config["old_hash"]):
-	with Session() as s:
-		s.post("https://pamplemousse.ensae.fr/site_publishing_helper/login_check/0", data=data)
-		response = s.get("https://pamplemousse.ensae.fr/index.php?p=105")
-		old_grades = response.text
-		hash = sha256(old_grades.encode("utf8")).hexdigest()
-		config["old_hash"] = hash
-		open("config.json","w").write(dumps(config))
-		s.close()
-
 with Session() as s:
 	s.post("https://pamplemousse.ensae.fr/site_publishing_helper/login_check/0", data=data)
 	response = s.get("https://pamplemousse.ensae.fr/index.php?p=105")
 	new_grades = response.text
 	hash = sha256(new_grades.encode("utf8")).hexdigest()
-	if hash != config["old_hash"]:
+	if not(config["old_hash"]):
+		config["old_hash"] = hash
+		open("config.json","w").write(dumps(config))
+	elif hash != config["old_hash"]:
 		config["old_hash"] = hash
 		open("config.json","w").write(dumps(config))
 		sendMail(config["gmail_login"], config["gmail_password"],config["recipient_address"])
